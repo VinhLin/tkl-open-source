@@ -1,0 +1,16 @@
+name: Issues notification
+
+on: 
+  issues:
+    types: [opened]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping
+        run: |
+          curl -i -H 'Accept: application/json' -H 'Content-Type:application/json' -X POST --data '{"content": "Anh Tiến ơi, có người nói là: ${{ github.event.issue.title }} "}' $DISCORD_WEBHOOK
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          FLAG: ${{ secrets.FLAG }}
